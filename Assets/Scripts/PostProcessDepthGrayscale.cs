@@ -6,7 +6,7 @@ using System.Collections;
 [ExecuteInEditMode]
 public class PostProcessDepthGrayscale : MonoBehaviour
 {
-    Camera camera;
+    new Camera camera;
     public Material mat;
 
     void Start()

@@ -46,6 +46,9 @@ public class PostProcessSubsurfaceScattering: MonoBehaviour
         {
             m_matSubSurfaceMaterial.SetTexture("_DepthMap", m_texDepthMap);
         }
+        m_matSubSurfaceMaterial.SetMatrix("_LightProjectionMatrix", GL.GetGPUProjectionMatrix(m_camDepthCamera.projectionMatrix, false));
+        m_matSubSurfaceMaterial.SetMatrix("_LightMatrix", m_camDepthCamera.worldToCameraMatrix);
+
 
         //RenderTexture.ReleaseTemporary(m_texDepthMap);
     }
