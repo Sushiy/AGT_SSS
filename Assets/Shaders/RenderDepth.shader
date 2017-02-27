@@ -24,9 +24,6 @@
                 v2f o;
 				o.pos = mul (UNITY_MATRIX_MVP, v.vertex);
 				o.scrPos=ComputeScreenPos(o.pos);
-
-				//for some reason, the y position of the depth texture comes out inverted
-				//o.scrPos.y = 1 - o.scrPos.y;
 				return o;
             }
 
@@ -34,14 +31,8 @@
 			half4 frag (v2f i) : COLOR
 			{
 			   float depthValue = Linear01Depth (tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.scrPos)).r);
-			   half4 depth;
 
-			   depth.r = depthValue;
-			   depth.g = depthValue;
-			   depth.b = depthValue;
-
-			   depth.a = 1;
-			   return depth;
+				return float4(depthValue, depthValue, depthValue, 1.0f);
 			}
             ENDCG
         }
