@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //An Object that should receive all the different SSSMaterials
-public class SSSObject : MonoBehaviour
+public class SSS_Object : MonoBehaviour
 {
     public bool m_bEnabled = false;
 

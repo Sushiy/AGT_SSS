@@ -65,6 +65,9 @@
 			//calculate the distance from the Light to the current point
             float dist_OUT = length(lightPos)/ _CameraFarPlane;
 
+			//Calculate distance traveled through the object
+			float dist_THROUGH = dist_OUT - dist_IN;
+
 			//Albedo is sampled from the ScatterMap and multiplied with the Color/Intensity of the light
 			o.Albedo = tex2D(_ScatterMap, float2(dist_THROUGH, 0.0f)).rgb * _LightColor.rgb;
 			

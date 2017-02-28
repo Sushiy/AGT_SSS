@@ -12,7 +12,7 @@ public class SSS_Controller : MonoBehaviour
     private Light m_lightSSS;
 
     [SerializeField]
-    SSSObject[] m_arrsssObjects;
+    SSS_Object[] m_arrsssObjects;
     [SerializeField]
     SSS_SubsurfaceScattering m_sssSubsurfaceScattering;
     [SerializeField]
