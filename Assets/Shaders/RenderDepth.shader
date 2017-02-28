@@ -30,7 +30,7 @@
             //Fragment Shader
 			half4 frag (v2f i) : COLOR
 			{
-			   float depthValue = Linear01Depth (tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.scrPos)).r);
+				float depthValue = Linear01Depth (tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.scrPos)).r);
 
 				return float4(depthValue, depthValue, depthValue, 1.0f);
 			}
