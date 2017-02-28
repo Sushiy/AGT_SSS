@@ -31,7 +31,6 @@
 
 		struct Input 
 		{
-			float3 worldPos;
 			float3 localPos;
 		};
 
@@ -47,13 +46,13 @@
 		void surf (Input IN, inout SurfaceOutputStandard o) 
 		{
 			//Calculate WorldSpace Position of fragment
-			float4 worldP = mul(unity_ObjectToWorld, float4(IN.localPos.xyz, 1.0f));
+			float4 worldPos = mul(unity_ObjectToWorld, float4(IN.localPos.xyz, 1.0f));
 
             //Translate point into light space
-            float4 pos_LightSpace = mul(_LightMatrix, worldP);
+            float4 lightPos = mul(_LightMatrix, worldPos);
 
 			//Translate point into lightProjectionSpace
-			float4 lightTexCoords = mul(_LightTexMatrix, worldP);
+			float4 lightTexCoords = mul(_LightTexMatrix, worldPos);
 
 			//transform coordinates into texture coordinates
 			lightTexCoords.xy /= lightTexCoords.w;
@@ -64,15 +63,10 @@
 			float dist_IN = Linear01Depth(DecodeFloatRGBA(tex2D(_DepthMap, lightTexCoords.xy)));
             
 			//calculate the distance from the Light to the current point
-            float dist_OUT = length( pos_LightSpace )/ _CameraFarPlane;
-            
-			//calculate the distance that the light traveled through the object
-            float dist_THROUGH = dist_OUT - dist_IN;
+            float dist_OUT = length(lightPos)/ _CameraFarPlane;
 
-			//Albedo is sampled from the ScatterMap and multiplied with the Color of the light, adjusted to the distance traveled 
-			//(The further the light traveled through the medium, the less its color and intensity affects its current point)
-			//This value is adjusted up a little bit for better visual results
-			o.Albedo = tex2D(_ScatterMap, float2(dist_THROUGH, 0.0f)).rgb * _LightColor;
+			//Albedo is sampled from the ScatterMap and multiplied with the Color/Intensity of the light
+			o.Albedo = tex2D(_ScatterMap, float2(dist_THROUGH, 0.0f)).rgb * _LightColor.rgb;
 			
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;

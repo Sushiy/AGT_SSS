@@ -2,25 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//An Object that should receive all the different SSSMaterials
 public class SSSObject : MonoBehaviour
 {
     public bool m_bEnabled = false;
 
+    //All Meshrenderers of this Object
     [SerializeField]
-    MeshRenderer[] m_arrmeshrendererThis;
+    Transform m_transMeshParent;
+    [SerializeField]
+    Transform m_transDepthMeshParent;
+    MeshRenderer[] m_arrmeshrendererRenderMeshes;
+    MeshRenderer[] m_arrmeshrendererDepthMeshes;    //All DepthMesh Renderers
 
     int m_iMaterialIndex = 0;
 
     private void Awake()
     {
-        m_arrmeshrendererThis = GetComponentsInChildren<MeshRenderer>();
+        //Grab all MeshRenderers
+        m_arrmeshrendererRenderMeshes = m_transMeshParent.GetComponentsInChildren<MeshRenderer>();
+        m_arrmeshrendererDepthMeshes = m_transDepthMeshParent.GetComponentsInChildren<MeshRenderer>();
     }
+
     // Use this for initialization
     void Start ()
     {
         ToggleMeshes();
 	}
 
+    //Go through different States of this Object: Disabled, Material_0, Material_1,...Material_n 
     public void Toggle(Material[] _arrmatSSS)
     {
         if(!m_bEnabled)
@@ -37,7 +47,6 @@ public class SSSObject : MonoBehaviour
             if(m_iMaterialIndex + 1 < iLen)
             {
                 m_iMaterialIndex++;
-                //Debug.Log(gameObject.name + ": materialIndex is now: " + m_iMaterialIndex);
                 SetMeshMaterial(_arrmatSSS[m_iMaterialIndex]);
             }
             else
@@ -50,17 +59,23 @@ public class SSSObject : MonoBehaviour
 
     }
 
+    //Enable/disable all MeshRenderers (and DepthMesh Renderers)
     void ToggleMeshes()
     {
-        foreach (MeshRenderer mesh in m_arrmeshrendererThis)
+        foreach (MeshRenderer mesh in m_arrmeshrendererRenderMeshes)
+        {
+            mesh.enabled = m_bEnabled;
+        }
+        foreach (MeshRenderer mesh in m_arrmeshrendererDepthMeshes)
         {
             mesh.enabled = m_bEnabled;
         }
     }
 
+    //Set the Material for all MeshRenderers (Not DepthMeshRenderers)
     void SetMeshMaterial(Material _mat)
     {
-        foreach (MeshRenderer mesh in m_arrmeshrendererThis)
+        foreach (MeshRenderer mesh in m_arrmeshrendererRenderMeshes)
         {
             mesh.material = _mat;
         }

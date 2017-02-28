@@ -1,5 +1,7 @@
 ﻿Shader "Subsurface Scattering/SubsurfaceScattering(Transparent)" 
 {
+	//Transparent Variant of the SubSurfaceShader
+
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
 		_Alpha("Alpha", Range(0,1)) = 0.5
@@ -73,14 +75,13 @@
 		//calculate the distance that the light traveled through the object
 		float dist_THROUGH = dist_OUT - dist_IN;
 
-		//Albedo is sampled from the ScatterMap and multiplied with the Color of the light, adjusted to the distance traveled 
-		//(The further the light traveled through the medium, the less its color and intensity affects its current point)
-		//This value is adjusted up a little bit for better visual results
+		//Albedo is sampled from the ScatterMap and multiplied with the Color of the light
 		o.Albedo = tex2D(_ScatterMap, float2(dist_THROUGH, 0.0f)).rgb * _LightColor;
 
 		// Metallic and smoothness come from slider variables
 		o.Metallic = _Metallic;
 		o.Smoothness = _Glossiness;
+		//Substract the value of the AlphaFallofMap (sampled with the distance traveled through the medium) from the Alpha set in the Material
 		o.Alpha = _Alpha - tex2D(_AlphaFalloffMap, float2(dist_THROUGH, 0.0f)).r;
 	}
 	ENDCG

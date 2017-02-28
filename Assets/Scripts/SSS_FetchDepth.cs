@@ -1,24 +1,22 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-//so that we can see changes we make without having to run the game
-
+//Controls the RenderCamera;
 [ExecuteInEditMode]
 public class SSS_FetchDepth : MonoBehaviour
 {
-    new Camera camera;
-    public Material mat;
+    Camera m_camThis;   //This DepthCamera
+    public Material m_matDepth;     //Material with the "RenderDepth"Shader
 
     void Start()
     {
-        camera = GetComponent<Camera>();
-        camera.depthTextureMode = DepthTextureMode.Depth;
+        m_camThis = GetComponent<Camera>();    //Grab CameraComponent
+        m_camThis.depthTextureMode = DepthTextureMode.Depth;   //Set DepthTextureMode
     }
 
+    //Renders the DepthMap to the RenderTexture
     void OnRenderImage(RenderTexture source, RenderTexture destination)
     {
-        Graphics.Blit(source, destination, mat);
-        //mat is the material which contains the shader
-        //we are passing the destination RenderTexture to
+        Graphics.Blit(source, destination, m_matDepth);
     }
 }

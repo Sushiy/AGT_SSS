@@ -18,7 +18,7 @@
 			   float4 scrPos:TEXCOORD1;
 			};
 
-			//Vertex Shader
+			//Basic Vertex Shader; Pass over position
             v2f vert (appdata_base v) 
 			{
                 v2f o;
@@ -27,7 +27,7 @@
 				return o;
             }
 
-            //Fragment Shader
+            //Fragment Shader; Sample the Cameras internal DepthTexture and draw it to the screen
 			half4 frag (v2f i) : COLOR
 			{
 				float depthValue = Linear01Depth (tex2Dproj(_CameraDepthTexture, UNITY_PROJ_COORD(i.scrPos)).r);

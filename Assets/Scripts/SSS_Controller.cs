@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//Simple Controller Script; Fetch some button inputs to control the Application
 public class SSS_Controller : MonoBehaviour
 {
     [SerializeField]
