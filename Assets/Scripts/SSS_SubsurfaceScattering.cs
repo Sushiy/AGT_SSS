@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UniRx;
 
 //Passes all necessary SceneData to the Materials 
 public class SSS_SubsurfaceScattering : MonoBehaviour 
